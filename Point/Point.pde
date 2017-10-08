@@ -28,11 +28,11 @@ int misses = 0; //number of missed clicks
 int ticks = 0;
 int red = 0, green = 255, blue = 255; // rgb of the targeted button
 
-Set<Integer> visited = new HashSet<Integer>(); // indicate if the button has been targeted
+// Set<Integer> visited = new HashSet<Integer>(); // indicate if the button has been targeted
 int numRepeats = 1; //sets the number of times each button repeats in the test
 
-int diffBackground = 0;
-int redBG = 0;
+//int diffBackground = 0;
+//int redBG = 0;
 
 int mouseClick = 0;
 
@@ -61,23 +61,24 @@ void setup()
 void draw() 
 {
   ticks += 1;
+  background(0);
   
-  if(diffBackground == 0)
-  {
-    background(0); //set background to black
-  }
-  else
-  {
-    diffBackground += 1;
-    if(redBG == 1)
-      background(255, 0, 0);
-    else
-      background(0, 255, 0);
-    if(diffBackground > 1)
-    {
-      diffBackground = 0;
-    }
-  }
+  //if(diffBackground == 0)
+  //{
+  //  background(0); //set background to black
+  //}
+  //else
+  //{
+  //  diffBackground += 1;
+  //  if(redBG == 1)
+  //    background(255, 0, 0);
+  //  else
+  //    background(0, 255, 0);
+  //  if(diffBackground > 1)
+  //  {
+  //    diffBackground = 0;
+  //  }
+  //}
 
   if (trialNum >= trials.size()) //check to see if test is over
   {
@@ -136,13 +137,16 @@ void draw()
       prev = curr;
     } else {
       line(x1, y1, x2, y2);
+      
       if ((deltax >= 0 && x <= x2 || deltax <= 0 && x >= x2) &&
-      (deltay >= 0 && y <= y2 || deltay <= 0 && y >= y2)) {        
+      (deltay >= 0 && y <= y2 || deltay <= 0 && y >= y2)) {  
+        
         noStroke();
         fill(255, 215, 0);
         ellipse(x, y, 20, 20);
         x += deltax;
         y += deltay;
+        
       }
     }
   }
@@ -180,20 +184,24 @@ void drawButton(int i)
   }
   else
   {
-    if (visited.contains(i)) {
+    //if (visited.contains(i)) {
       
-      noStroke();
-      fill(47,79,79); // if visited, mark the button to dark grey
-      rect(bounds.x, bounds.y, bounds.width, bounds.height);
-      stroke(105);
-      line(bounds.x, bounds.y, (bounds.x + bounds.width), (bounds.y + bounds.height));
-      line((bounds.x + bounds.width), bounds.y, bounds.x, (bounds.y + bounds.height));
-    } else {
-      noStroke();
-      fill(200); // if not, fill light gray
+    //  noStroke();
+    //  fill(47,79,79); // if visited, mark the button to dark grey
+    //  rect(bounds.x, bounds.y, bounds.width, bounds.height);
+    //  stroke(105);
+    //  line(bounds.x, bounds.y, (bounds.x + bounds.width), (bounds.y + bounds.height));
+    //  line((bounds.x + bounds.width), bounds.y, bounds.x, (bounds.y + bounds.height));
+    //} else {
+    //  noStroke();
+    //  fill(200); // if not, fill light gray
       
-      rect(bounds.x, bounds.y, bounds.width, bounds.height);
-    }
+    //  rect(bounds.x, bounds.y, bounds.width, bounds.height);
+    //}
+    
+    noStroke();
+    fill(200); // if not, fill light gray
+    rect(bounds.x, bounds.y, bounds.width, bounds.height);
   }
 }
 
@@ -254,13 +262,13 @@ void mousePressed() // test to see if hit was in target!
       //System.out.println("HIT! " + trialNum + " " + (millis() - startTime)); // success
   
       hits++; 
-      redBG = 0;
+      //redBG = 0;
     } 
     else
     {
       //System.out.println("MISSED! " + trialNum + " " + (millis() - startTime)); // fail
       misses++;
-      redBG = 1;
+      //redBG = 1;
     }
   
     trialNum++; //Increment trial number
@@ -299,13 +307,13 @@ void keyPressed()
     //System.out.println("HIT! " + trialNum + " " + (millis() - startTime)); // success
 
     hits++; 
-    redBG = 0;
+    //redBG = 0;
   } 
   else
   {
     //System.out.println("MISSED! " + trialNum + " " + (millis() - startTime)); // fail
     misses++;
-    redBG = 1;
+    //redBG = 1;
   }
 
   trialNum++; //Increment trial number
