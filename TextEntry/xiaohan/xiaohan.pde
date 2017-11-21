@@ -120,7 +120,7 @@ void draw()
     fill(128);
     text("Phrase " + (currTrialNum+1) + " of " + totalTrialNum, left, 50); //draw the trial count
     fill(255);
-    text("Target :   " + currentPhrase, left, 100); //draw the target string
+    text("Target :  " + currentPhrase, left, 100); //draw the target string
     text("Entered: " + currentTyped + "|", left, 140); //draw what the user has entered thus far
     fill(255, 0, 0);
     rect(800, 800, 200, 200); //drag next button
@@ -347,28 +347,29 @@ void mousePressed()
   }
   
   // corner box
-  if (mouseX < keyBoardStartPoint+sizeOfInputArea/2 && mouseY < keyBoardStartPoint+sizeOfInputArea/2) {
+    if (didMouseClick(keyBoardStartPoint, keyBoardStartPoint, 100+boxWidth/2+10, 100+boxWidth/2+10)) {
     status[4] = true;
     colors[4].red = 30;
     colors[4].green = 144;
     colors[4].blue = 255;
     return;
   }
-   if (mouseX > keyBoardStartPoint+sizeOfInputArea/2 && mouseY < keyBoardStartPoint+sizeOfInputArea/2) {
+  if (didMouseClick(x+boxWidth*3/2+5-10, keyBoardStartPoint, keyBoardStartPoint+sizeOfInputArea-(x+boxWidth*3/2+5-10), 100+boxWidth/2+10)) {
     status[5] = true;
     colors[5].red = 30;
     colors[5].green = 144;
     colors[5].blue = 255;
     return;
   }
-  if (mouseX > keyBoardStartPoint+sizeOfInputArea/2 && mouseY > keyBoardStartPoint+sizeOfInputArea/2) {
+  if (didMouseClick(x+boxWidth*3/2+5-10, x+boxWidth*3/2+5-10, 
+      keyBoardStartPoint+sizeOfInputArea-(x+boxWidth*3/2+5-10), keyBoardStartPoint+sizeOfInputArea-(x+boxWidth*3/2+5-10))) {
     status[6] = true;
     colors[6].red = 30;
     colors[6].green = 144;
     colors[6].blue = 255;
     return;
   }
-  if (mouseX < keyBoardStartPoint+sizeOfInputArea/2 && mouseY > keyBoardStartPoint+sizeOfInputArea/2) {
+  if (didMouseClick(keyBoardStartPoint, x+boxWidth*3/2+5-10, 100+boxWidth/2+10, keyBoardStartPoint+sizeOfInputArea-(x+boxWidth*3/2+5-10))) {
     status[7] = true;
     colors[7].red = 30;
     colors[7].green = 144;
