@@ -144,11 +144,14 @@ void draw()
 
   if (startTime!=0)
   {
+    // if input is wrong
     if (currentPhrase.length() < currentTyped.length() || 
             !currentPhrase.substring(0, currentTyped.length()).equals(currentTyped)) {
       background(240,128,128);
       fill(0);
-    }else if (currentPhrase.length() == currentTyped.length()) {
+    }
+    // if everything is correct
+    else if (currentPhrase.length() == currentTyped.length()) {
       background(60,179,113);
       fill(0);
     }
