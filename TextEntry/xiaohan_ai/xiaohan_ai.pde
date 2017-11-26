@@ -144,13 +144,12 @@ void draw()
 
   if (startTime!=0)
   {
-    if (currentPhrase.length() == currentTyped.length()) {
-      background(60,179,113);
-      fill(0);
-    }
-    else if (currentPhrase.length() < currentTyped.length() || 
+    if (currentPhrase.length() < currentTyped.length() || 
             !currentPhrase.substring(0, currentTyped.length()).equals(currentTyped)) {
       background(240,128,128);
+      fill(0);
+    }else if (currentPhrase.length() == currentTyped.length()) {
+      background(60,179,113);
       fill(0);
     }
     else {
@@ -161,7 +160,7 @@ void draw()
     textAlign(LEFT); //align the text left
     text("Phrase " + (currTrialNum+1) + " of " + totalTrialNum, left, 50); //draw the trial count
     fill(255);
-    text("Target :  " + currentPhrase, left, 100); //draw the target string
+    text("Target :   " + currentPhrase, left, 100); //draw the target string
     text("Entered: " + currentTyped + "|", left, 140); //draw what the user has entered thus far
     fill(255, 0, 0);
     rect(800, 800, 200, 200); //drag next button
