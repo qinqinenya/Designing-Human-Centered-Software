@@ -1,29 +1,5 @@
 import java.util.*;
 
-/* 
-   middle box, line color are 200;
-   side quad color is 130;
-   corner box, input keyboard background color is 80;
-   
-   text color is 255;
-   middle box text color is 50;
-   
-   when clicked, 
-   middle box color is fill(135,206,235);
-   side quad box color is fill(0,191,255);
-   corner box color is fill(30,144,255);
-   
-   intelligent input color is fill(255,99,71);
-   if the input string's length hits the correct length,
-   change the background to green (60,179,113);
-   if the input string's length goes beyond, 
-   change the background to pink (240,128,128); 
-   
-   q, 0; z, 1; backspace, 2; blank, 3;
-   wxy, 4; def, 5; jkl, 6; prs, 7;
-   abc, 8; ghi, 9; mno, 10; tuv, 11;
-*/
-
 String[] phrases; //contains all of the phrases
 int totalTrialNum = 4; //the total number of phrases to be tested - set this low for testing. Might be ~10 for the real bakeoff!
 int currTrialNum = 0; // the current trial number (indexes into trials array above)
@@ -44,9 +20,9 @@ char currentLetter = 'a';
 
 //My variables
 float keyBoardStartPoint = 270;
-Color[] colors = new Color[12];
+Color[] colors = new Color[28];
 Color[] textColors = new Color[26];
-boolean[] status = new boolean[12];
+boolean[] status = new boolean[28];
 float x = keyBoardStartPoint+100;
 float boxWidth = sizeOfInputArea/4+10;
 TrieNode root = null;
@@ -66,27 +42,12 @@ void setup()
   textSize(30);
   noStroke(); //my code doesn't use any strokes.
   
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 28; i++) {
     colors[i] = new Color(200, 200, 200);
   }
-  for (int i = 4; i < 8; i++) {
-    colors[i] = new Color(80, 80, 80);
-  }
-  for (int i = 8; i < 12; i++) {
-    colors[i] = new Color(130, 130, 130);
-  }
   
-  // middle text
-  textColors[16] = new Color(50, 50, 50);
-  textColors[25] = new Color(50, 50, 50);
-  
-  // peripheral text
-  for (int i = 0; i < 16; i++) {
-    textColors[i] = new Color(255, 255, 255);
-  }
-  
-  for (int i = 17; i < 25; i++) {
-    textColors[i] = new Color(255, 255, 255);
+  for (int i = 0; i < 26; i++) {
+    textColors[i] = new Color(0, 0, 0);
   }
   
   if (intelligentInput) {
@@ -158,8 +119,10 @@ void draw()
     else {
       fill(128);
     }
+    
     int left = 150;
     //you will need something like the next 10 lines in your code. Output does not have to be within the 2 inch area!
+    textSize(30);
     textAlign(LEFT); //align the text left
     text("Phrase " + (currTrialNum+1) + " of " + totalTrialNum, left, 50); //draw the trial count
     fill(255);
@@ -169,149 +132,223 @@ void draw()
     rect(800, 800, 200, 200); //drag next button
     fill(255);
     text("NEXT > ", 850, 910); //draw next label
-
+    
+    
+    fill(80); // input keyboard background color
+    rect(270, 270, sizeOfInputArea, sizeOfInputArea); //input area should be 2" by 2"
+    
     //my draw code
-    // conor boxes
-    // left up box
+    float firstRowX = keyBoardStartPoint+14;
+    float firstRowY = keyBoardStartPoint+50;
+    float buttonLen = 35;
+    float buttonWid = 70;
+    float blankWid = 7;
+    float distBetweenButton = buttonLen + blankWid;
+    
+    fill(colors[16].red, colors[16].green, colors[16].blue);
+    rect(firstRowX, firstRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[22].red, colors[22].green, colors[22].blue);
+    rect(firstRowX+distBetweenButton*1, firstRowY, buttonLen, buttonWid, 5);
+    
     fill(colors[4].red, colors[4].green, colors[4].blue);
-    rect(keyBoardStartPoint, keyBoardStartPoint, 100+boxWidth/2+10, 100+boxWidth/2+10);
-    // right up box
-    fill(colors[5].red, colors[5].green, colors[5].blue);
-    rect(x+boxWidth*3/2+5-10, keyBoardStartPoint, keyBoardStartPoint+sizeOfInputArea-(x+boxWidth*3/2+5-10), 100+boxWidth/2+10);
-    // right bottom box
-    fill(colors[6].red, colors[6].green, colors[6].blue);
-    rect(x+boxWidth*3/2+5-10, x+boxWidth*3/2+5-10, 
-         keyBoardStartPoint+sizeOfInputArea-(x+boxWidth*3/2+5-10), keyBoardStartPoint+sizeOfInputArea-(x+boxWidth*3/2+5-10));
-    // left bottom box
-    fill(colors[7].red, colors[7].green, colors[7].blue);
-    rect(keyBoardStartPoint, x+boxWidth*3/2+5-10, 100+boxWidth/2+10, keyBoardStartPoint+sizeOfInputArea-(x+boxWidth*3/2+5-10));
+    rect(firstRowX+distBetweenButton*2, firstRowY, buttonLen, buttonWid, 5);
     
-    // middle boxes
-    // space button
-    fill(colors[0].red, colors[0].green, colors[0].blue);
-    rect(x, x, boxWidth, boxWidth,5);
-    // backspace button
-    fill(colors[1].red, colors[1].green, colors[1].blue);
-    rect(x+boxWidth+5, x, boxWidth, boxWidth,5);
-    // e
-    fill(colors[2].red, colors[2].green, colors[2].blue);
-    rect(x, x+boxWidth+5, boxWidth, boxWidth,5);
-    // t
-    fill(colors[3].red, colors[3].green, colors[3].blue);
-    rect(x+boxWidth+5, x+boxWidth+5, boxWidth, boxWidth,5);
+    fill(colors[17].red, colors[17].green, colors[17].blue);
+    rect(firstRowX+distBetweenButton*3, firstRowY, buttonLen, buttonWid, 5);
     
-    // up two lines
-    noStroke();
+    fill(colors[19].red, colors[19].green, colors[19].blue);
+    rect(firstRowX+distBetweenButton*4, firstRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[24].red, colors[24].green, colors[24].blue);
+    rect(firstRowX+distBetweenButton*5, firstRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[20].red, colors[20].green, colors[20].blue);
+    rect(firstRowX+distBetweenButton*6, firstRowY, buttonLen, buttonWid, 5);
+    
     fill(colors[8].red, colors[8].green, colors[8].blue);
-    quad(x+10, keyBoardStartPoint, x+boxWidth/2+10, x, x+boxWidth*3/2+5-10, x, x+boxWidth*2+5-10, keyBoardStartPoint);
+    rect(firstRowX+distBetweenButton*7, firstRowY, buttonLen, buttonWid, 5);
     
-    strokeWeight(2);
-    stroke(200);
-    line(x+10, keyBoardStartPoint, x+boxWidth/2+10, x);
-    line(x+boxWidth*2+5-10, keyBoardStartPoint, x+boxWidth*3/2+5-10, x);
+    fill(colors[14].red, colors[14].green, colors[14].blue);
+    rect(firstRowX+distBetweenButton*8, firstRowY, buttonLen, buttonWid, 5);
     
-    // right two lines
-    noStroke();
+    fill(colors[15].red, colors[15].green, colors[15].blue);
+    rect(firstRowX+distBetweenButton*9, firstRowY, buttonLen, buttonWid, 5);
+    
+    
+    
+    
+    float secondRowX = keyBoardStartPoint+34;
+    float secondRowY = firstRowY+100;
+    
+    fill(colors[0].red, colors[0].green, colors[0].blue);
+    rect(secondRowX, secondRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[18].red, colors[18].green, colors[18].blue);
+    rect(secondRowX+distBetweenButton*1, secondRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[3].red, colors[3].green, colors[3].blue);
+    rect(secondRowX+distBetweenButton*2, secondRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[5].red, colors[5].green, colors[5].blue);
+    rect(secondRowX+distBetweenButton*3, secondRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[6].red, colors[6].green, colors[6].blue);
+    rect(secondRowX+distBetweenButton*4, secondRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[7].red, colors[7].green, colors[7].blue);
+    rect(secondRowX+distBetweenButton*5, secondRowY, buttonLen, buttonWid, 5);
+    
     fill(colors[9].red, colors[9].green, colors[9].blue);
-    quad(keyBoardStartPoint+sizeOfInputArea, x+2*boxWidth+5-10, x+2*boxWidth+5, x+boxWidth*3/2+5-10, x+2*boxWidth+5, 
-         x+boxWidth/2+10, keyBoardStartPoint+sizeOfInputArea, x+10);
+    rect(secondRowX+distBetweenButton*6, secondRowY, buttonLen, buttonWid, 5);
     
-    strokeWeight(2);
-    stroke(200);
-    line(keyBoardStartPoint+sizeOfInputArea, x+10, x+2*boxWidth+5, x+boxWidth/2+10);
-    line(keyBoardStartPoint+sizeOfInputArea, x+2*boxWidth+5-10, x+2*boxWidth+5, x+boxWidth*3/2+5-10);
-    
-    // bottom two lines
-    noStroke();
     fill(colors[10].red, colors[10].green, colors[10].blue);
-    quad(x+10, keyBoardStartPoint+sizeOfInputArea, x+boxWidth/2+10, x+boxWidth*2+5, x+boxWidth*3/2+5-10, x+boxWidth*2+5, 
-         x+2*boxWidth+5-10, keyBoardStartPoint+sizeOfInputArea);
+    rect(secondRowX+distBetweenButton*7, secondRowY, buttonLen, buttonWid, 5);
     
-    strokeWeight(2);
-    stroke(200);
-    line(x+10, keyBoardStartPoint+sizeOfInputArea, x+boxWidth/2+10, x+boxWidth*2+5);
-    line(x+2*boxWidth+5-10, keyBoardStartPoint+sizeOfInputArea, x+boxWidth*3/2+5-10, x+boxWidth*2+5);
-    
-    // left two lines
-    noStroke();
     fill(colors[11].red, colors[11].green, colors[11].blue);
-    quad(keyBoardStartPoint, x+10, x, x+boxWidth/2+10, x, x+boxWidth*3/2+5-10, keyBoardStartPoint, x+2*boxWidth+5-10);
+    rect(secondRowX+distBetweenButton*8, secondRowY, buttonLen, buttonWid, 5);
     
-    strokeWeight(2);
-    stroke(200);
-    line(keyBoardStartPoint, x+10, x, x+boxWidth/2+10);
-    line(keyBoardStartPoint, x+2*boxWidth+5-10, x, x+boxWidth*3/2+5-10);
     
-    noStroke();
+    
+    
+    float thirdRowX = keyBoardStartPoint+75;
+    float thirdRowY = secondRowY+100;
+    
+    fill(colors[25].red, colors[25].green, colors[25].blue);
+    rect(thirdRowX, thirdRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[23].red, colors[23].green, colors[23].blue);
+    rect(thirdRowX+distBetweenButton*1, thirdRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[2].red, colors[2].green, colors[2].blue);
+    rect(thirdRowX+distBetweenButton*2, thirdRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[21].red, colors[21].green, colors[21].blue);
+    rect(thirdRowX+distBetweenButton*3, thirdRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[1].red, colors[1].green, colors[1].blue);
+    rect(thirdRowX+distBetweenButton*4, thirdRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[13].red, colors[13].green, colors[13].blue);
+    rect(thirdRowX+distBetweenButton*5, thirdRowY, buttonLen, buttonWid, 5);
+    
+    fill(colors[12].red, colors[12].green, colors[12].blue);
+    rect(thirdRowX+distBetweenButton*6, thirdRowY, buttonLen, buttonWid, 5);
+    
+    
+    
+    
+    // space
+    fill(colors[26].red, colors[26].green, colors[26].blue);
+    rect(keyBoardStartPoint+90, thirdRowY+100, 180, 50, 5);
+    //backspace
+    fill(colors[27].red, colors[27].green, colors[27].blue);
+    rect(keyBoardStartPoint+290, thirdRowY+100, 60, 50, 5);
+    
+    
+    
     
     textAlign(CENTER);
     textSize(35);
     
+    firstRowX += 17;
+    firstRowY += 42;
+    distBetweenButton = 42;
+    
+    fill(textColors[16].red, textColors[16].green, textColors[16].blue);
+    text("q", firstRowX, firstRowY);
+    
     fill(textColors[22].red, textColors[22].green, textColors[22].blue);
-    text("w", keyBoardStartPoint+50, keyBoardStartPoint+110);
-    fill(textColors[23].red, textColors[23].green, textColors[23].blue);
-    text("x", keyBoardStartPoint+50, keyBoardStartPoint+60);
-    fill(textColors[24].red, textColors[24].green, textColors[24].blue);
-    text("y", keyBoardStartPoint+100, keyBoardStartPoint+60);
+    text("w", firstRowX+distBetweenButton*1, firstRowY);
     
-    fill(textColors[0].red, textColors[0].green, textColors[0].blue);
-    text("a", x+boxWidth/2+12, keyBoardStartPoint+60);
-    fill(textColors[1].red, textColors[1].green, textColors[1].blue);
-    text("b", x+boxWidth+2, keyBoardStartPoint+60);
-    fill(textColors[2].red, textColors[2].green, textColors[2].blue);
-    text("c", x+boxWidth*3/2+5-12, keyBoardStartPoint+60);
-    
-    fill(textColors[3].red, textColors[3].green, textColors[3].blue);
-    text("d", x+boxWidth*2+5, keyBoardStartPoint+60);
     fill(textColors[4].red, textColors[4].green, textColors[4].blue);
-    text("e", x+boxWidth*2+50, keyBoardStartPoint+60);
-    fill(textColors[5].red, textColors[5].green, textColors[5].blue);
-    text("f", x+boxWidth*2+50, x+10);
+    text("e", firstRowX+distBetweenButton*2, firstRowY);
+    
+    fill(textColors[17].red, textColors[17].green, textColors[17].blue);
+    text("r", firstRowX+distBetweenButton*3, firstRowY);
     
     fill(textColors[19].red, textColors[19].green, textColors[19].blue);
-    text("t", keyBoardStartPoint+50, x+boxWidth/2+30);
-    fill(textColors[20].red, textColors[20].green, textColors[20].blue);
-    text("u", keyBoardStartPoint+50, x+boxWidth+15);
-    fill(textColors[21].red, textColors[21].green, textColors[21].blue);
-    text("v", keyBoardStartPoint+50, x+boxWidth*3/2-4);
+    text("t", firstRowX+distBetweenButton*4, firstRowY);
     
-    fill(textColors[6].red, textColors[6].green, textColors[6].blue);
-    text("g", x+boxWidth*2+50, x+boxWidth/2+30);
-    fill(textColors[7].red, textColors[7].green, textColors[7].blue);
-    text("h", x+boxWidth*2+50, x+boxWidth+15);
+    fill(textColors[24].red, textColors[24].green, textColors[24].blue);
+    text("y", firstRowX+distBetweenButton*5, firstRowY);
+    
+    fill(textColors[20].red, textColors[20].green, textColors[20].blue);
+    text("u", firstRowX+distBetweenButton*6, firstRowY);
+    
     fill(textColors[8].red, textColors[8].green, textColors[8].blue);
-    text("i", x+boxWidth*2+50, x+boxWidth*3/2-4);
+    text("i", firstRowX+distBetweenButton*7, firstRowY);
+    
+    fill(textColors[14].red, textColors[14].green, textColors[14].blue);
+    text("o", firstRowX+distBetweenButton*8, firstRowY);
     
     fill(textColors[15].red, textColors[15].green, textColors[15].blue);
-    text("p", keyBoardStartPoint+50, x+boxWidth*2+10);
-    fill(textColors[17].red, textColors[17].green, textColors[17].blue);
-    text("r", keyBoardStartPoint+55, x+boxWidth*2+60);
-    fill(textColors[18].red, textColors[18].green, textColors[18].blue);
-    text("s", keyBoardStartPoint+100, x+boxWidth*2+60);
+    text("p", firstRowX+distBetweenButton*9, firstRowY);
     
-    fill(textColors[12].red, textColors[12].green, textColors[12].blue);
-    text("m", x+boxWidth/2+12, x+boxWidth*2+60);
-    fill(textColors[13].red, textColors[13].green, textColors[13].blue);
-    text("n", x+boxWidth+2, x+boxWidth*2+60);
-    fill(textColors[14].red, textColors[14].green, textColors[14].blue);
-    text("o", x+boxWidth*3/2+5-12, x+boxWidth*2+60);
+    
+    
+    
+    secondRowX += 17;
+    secondRowY += 42;
+    
+    fill(textColors[0].red, textColors[0].green, textColors[0].blue);
+    text("a", secondRowX, secondRowY);
+    
+    fill(textColors[18].red, textColors[18].green, textColors[18].blue);
+    text("s", secondRowX+distBetweenButton*1, secondRowY);
+    
+    fill(textColors[3].red, textColors[3].green, textColors[3].blue);
+    text("d", secondRowX+distBetweenButton*2, secondRowY);
+    
+    fill(textColors[5].red, textColors[5].green, textColors[5].blue);
+    text("f", secondRowX+distBetweenButton*3, secondRowY);
+    
+    fill(textColors[6].red, textColors[6].green, textColors[6].blue);
+    text("g", secondRowX+distBetweenButton*4, secondRowY);
+    
+    fill(textColors[7].red, textColors[7].green, textColors[7].blue);
+    text("h", secondRowX+distBetweenButton*5, secondRowY);
     
     fill(textColors[9].red, textColors[9].green, textColors[9].blue);
-    text("j", x+boxWidth*2+50, x+boxWidth*2+10);
+    text("j", secondRowX+distBetweenButton*6, secondRowY);
+    
     fill(textColors[10].red, textColors[10].green, textColors[10].blue);
-    text("k", x+boxWidth*2+50, x+boxWidth*2+60);
+    text("k", secondRowX+distBetweenButton*7, secondRowY);
+    
     fill(textColors[11].red, textColors[11].green, textColors[11].blue);
-    text("l", x+boxWidth*2+5, x+boxWidth*2+60);
+    text("l", secondRowX+distBetweenButton*8, secondRowY);
     
-    // middle box
-    fill(textColors[16].red, textColors[16].green, textColors[16].blue);
-    text("q", x+boxWidth/2, x+boxWidth/2+10);
+    
+    
+    thirdRowX += 17;
+    thirdRowY += 42;
+    
     fill(textColors[25].red, textColors[25].green, textColors[25].blue);
-    text("z", x+boxWidth*3/2, x+boxWidth/2+10);
-    text("\u2190", x+boxWidth/2, x+boxWidth*3/2+10+5);
-    //text("t", x+boxWidth*3/2+5, x+boxWidth*3/2+10+5);
+    text("z", thirdRowX, thirdRowY);
     
-    textSize(30);
+    fill(textColors[23].red, textColors[23].green, textColors[23].blue);
+    text("x", thirdRowX+distBetweenButton*1, thirdRowY);
+    
+    fill(textColors[2].red, textColors[2].green, textColors[2].blue);
+    text("c", thirdRowX+distBetweenButton*2, thirdRowY);
+    
+    fill(textColors[21].red, textColors[21].green, textColors[21].blue);
+    text("v", thirdRowX+distBetweenButton*3, thirdRowY);
+    
+    fill(textColors[1].red, textColors[1].green, textColors[1].blue);
+    text("b", thirdRowX+distBetweenButton*4, thirdRowY);
+    
+    fill(textColors[13].red, textColors[13].green, textColors[13].blue);
+    text("n", thirdRowX+distBetweenButton*5, thirdRowY);
+    
+    fill(textColors[12].red, textColors[12].green, textColors[12].blue);
+    text("m", thirdRowX+distBetweenButton*6, thirdRowY);
+    
+    
+    // backspace
+    fill(0);
+    text("\u2190", keyBoardStartPoint+290+30, thirdRowY+95);
+    
   }
   
 }
@@ -321,24 +358,14 @@ boolean didMouseClick(float x, float y, float w, float h) //simple function to d
   return (mouseX > x && mouseX<x+w && mouseY>y && mouseY<y+h); //check to see if it is in button bounds
 }
 
-float orientationCheck(float x1, float y1, float x2, float y2) {
-  return (mouseY-y1)*(x2-mouseX)-(y2-mouseY)*(mouseX-x1);
-}
-
-boolean didClickSideQuad(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
-  return (orientationCheck(x1, y1, x2, y2) >= 0) && (orientationCheck(x2, y2, x3, y3) >= 0) &&
-  (orientationCheck(x3, y3, x4, y4) >= 0) && (orientationCheck(x4, y4, x1, y1) >= 0);
-}
-
 
 void mousePressed()
-{
-  colors[3] = new Color(200, 200, 200);
-  
+{  
   if (startTime == 0) {
     return;
   }
   
+  // nexts
   if (didMouseClick(800, 800, 200, 200)) {
     curr = root;
     resetAllTextColors();
@@ -352,350 +379,434 @@ void mousePressed()
     return;
   }
   
-  // middle boxes
-  if (didMouseClick(x, x, boxWidth, boxWidth)) {
-    status[0] = true;
-    colors[0].red = 135;
-    colors[0].green = 206;
-    colors[0].blue = 235;
-    return;
-  }
-  if (didMouseClick(x+boxWidth+5, x, boxWidth, boxWidth)) {
-    status[1] = true;
-    colors[1].red = 135;
-    colors[1].green = 206;
-    colors[1].blue = 235;
-    return;
-  }
-  if (didMouseClick(x, x+boxWidth+5, boxWidth, boxWidth)) {
-    status[2] = true;
-    colors[2].red = 135;
-    colors[2].green = 206;
-    colors[2].blue = 235;
-    return;
-  }
-  if (didMouseClick(x+boxWidth+5, x+boxWidth+5, boxWidth, boxWidth)) {
-    status[3] = true;
-    colors[3].red = 135;
-    colors[3].green = 206;
-    colors[3].blue = 235;
-    return;
-  }
+  // first row
+  float firstRowX = keyBoardStartPoint+14;
+  float firstRowY = keyBoardStartPoint+50;
+  float buttonLen = 35;
+  float buttonWid = 70;
+  float blankWid = 7;
+  float distBetweenButton = buttonLen + blankWid;
   
-  // side quad box
-  if (didClickSideQuad(x+boxWidth*2+5-10, keyBoardStartPoint, x+boxWidth*3/2+5-10, x, x+boxWidth/2+10, x, x+10, keyBoardStartPoint)) {
-    status[8] = true;
-    colors[8].red = 0;
-    colors[8].green = 191;
-    colors[8].blue = 255;
+  // first row
+  if (didMouseClick(firstRowX, firstRowY, buttonLen, buttonWid)) {
+    status[16] = true;
+    colors[16] = new Color(135, 206, 235);
     return;
   }
-  if (didClickSideQuad(keyBoardStartPoint+sizeOfInputArea, x+10, keyBoardStartPoint+sizeOfInputArea, x+2*boxWidth+5-10, 
-      x+2*boxWidth+5, x+boxWidth*3/2+5-10, x+2*boxWidth+5, x+boxWidth/2+10)) {
-    status[9] = true;
-    colors[9].red = 0;
-    colors[9].green = 191;
-    colors[9].blue = 255;
+  if (didMouseClick(firstRowX+distBetweenButton*1, firstRowY, buttonLen, buttonWid)) {
+    status[22] = true;
+    colors[22] = new Color(135, 206, 235);
     return;
   }
-  if (didClickSideQuad(x+boxWidth*3/2+5-10, x+boxWidth*2+5, x+2*boxWidth+5-10, keyBoardStartPoint+sizeOfInputArea, 
-      x+10, keyBoardStartPoint+sizeOfInputArea, x+boxWidth/2+10, x+boxWidth*2+5)) {
-    status[10] = true;
-    colors[10].red = 0;
-    colors[10].green = 191;
-    colors[10].blue = 255;
-    return;
-  }
-  if (didClickSideQuad(x, x+boxWidth/2+10, x, x+boxWidth*3/2+5-10, keyBoardStartPoint, x+2*boxWidth+5-10, keyBoardStartPoint, x+10)) {
-    status[11] = true;
-    colors[11].red = 0;
-    colors[11].green = 191;
-    colors[11].blue = 255;
-    return;
-  }
-  
-  // corner box
-    if (didMouseClick(keyBoardStartPoint, keyBoardStartPoint, 100+boxWidth/2+10, 100+boxWidth/2+10)) {
+  if (didMouseClick(firstRowX+distBetweenButton*2, firstRowY, buttonLen, buttonWid)) {
     status[4] = true;
-    colors[4].red = 30;
-    colors[4].green = 144;
-    colors[4].blue = 255;
+    colors[4] = new Color(135, 206, 235);
     return;
   }
-  if (didMouseClick(x+boxWidth*3/2+5-10, keyBoardStartPoint, keyBoardStartPoint+sizeOfInputArea-(x+boxWidth*3/2+5-10), 100+boxWidth/2+10)) {
+  if (didMouseClick(firstRowX+distBetweenButton*3, firstRowY, buttonLen, buttonWid)) {
+    status[17] = true;
+    colors[17] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(firstRowX+distBetweenButton*4, firstRowY, buttonLen, buttonWid)) {
+    status[19] = true;
+    colors[19] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(firstRowX+distBetweenButton*5, firstRowY, buttonLen, buttonWid)) {
+    status[24] = true;
+    colors[24] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(firstRowX+distBetweenButton*6, firstRowY, buttonLen, buttonWid)) {
+    status[20] = true;
+    colors[20] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(firstRowX+distBetweenButton*7, firstRowY, buttonLen, buttonWid)) {
+    status[8] = true;
+    colors[8] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(firstRowX+distBetweenButton*8, firstRowY, buttonLen, buttonWid)) {
+    status[14] = true;
+    colors[14] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(firstRowX+distBetweenButton*9, firstRowY, buttonLen, buttonWid)) {
+    status[15] = true;
+    colors[15] = new Color(135, 206, 235);
+    return;
+  }
+  
+  // second row
+  float secondRowX = keyBoardStartPoint+34;
+  float secondRowY = firstRowY+100;
+  
+  if (didMouseClick(secondRowX, secondRowY, buttonLen, buttonWid)) {
+    status[0] = true;
+    colors[0] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(secondRowX+distBetweenButton*1, secondRowY, buttonLen, buttonWid)) {
+    status[18] = true;
+    colors[18] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(secondRowX+distBetweenButton*2, secondRowY, buttonLen, buttonWid)) {
+    status[3] = true;
+    colors[3] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(secondRowX+distBetweenButton*3, secondRowY, buttonLen, buttonWid)) {
     status[5] = true;
-    colors[5].red = 30;
-    colors[5].green = 144;
-    colors[5].blue = 255;
+    colors[5] = new Color(135, 206, 235);
     return;
   }
-  if (didMouseClick(x+boxWidth*3/2+5-10, x+boxWidth*3/2+5-10, 
-      keyBoardStartPoint+sizeOfInputArea-(x+boxWidth*3/2+5-10), keyBoardStartPoint+sizeOfInputArea-(x+boxWidth*3/2+5-10))) {
+  if (didMouseClick(secondRowX+distBetweenButton*4, secondRowY, buttonLen, buttonWid)) {
     status[6] = true;
-    colors[6].red = 30;
-    colors[6].green = 144;
-    colors[6].blue = 255;
+    colors[6] = new Color(135, 206, 235);
     return;
   }
-  if (didMouseClick(keyBoardStartPoint, x+boxWidth*3/2+5-10, 100+boxWidth/2+10, keyBoardStartPoint+sizeOfInputArea-(x+boxWidth*3/2+5-10))) {
+  if (didMouseClick(secondRowX+distBetweenButton*5, secondRowY, buttonLen, buttonWid)) {
     status[7] = true;
-    colors[7].red = 30;
-    colors[7].green = 144;
-    colors[7].blue = 255;
+    colors[7] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(secondRowX+distBetweenButton*6, secondRowY, buttonLen, buttonWid)) {
+    status[9] = true;
+    colors[9] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(secondRowX+distBetweenButton*7, secondRowY, buttonLen, buttonWid)) {
+    status[10] = true;
+    colors[10] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(secondRowX+distBetweenButton*8, secondRowY, buttonLen, buttonWid)) {
+    status[11] = true;
+    colors[11] = new Color(135, 206, 235);
+    return;
+  }
+  
+  
+  float thirdRowX = keyBoardStartPoint+75;
+  float thirdRowY = secondRowY+100;
+    
+  if (didMouseClick(thirdRowX, thirdRowY, buttonLen, buttonWid)) {
+    status[25] = true;
+    colors[25] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(thirdRowX+distBetweenButton*1, thirdRowY, buttonLen, buttonWid)) {
+    status[23] = true;
+    colors[23] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(thirdRowX+distBetweenButton*2, thirdRowY, buttonLen, buttonWid)) {
+    status[2] = true;
+    colors[2] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(thirdRowX+distBetweenButton*3, thirdRowY, buttonLen, buttonWid)) {
+    status[21] = true;
+    colors[21] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(thirdRowX+distBetweenButton*4, thirdRowY, buttonLen, buttonWid)) {
+    status[1] = true;
+    colors[1] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(thirdRowX+distBetweenButton*5, thirdRowY, buttonLen, buttonWid)) {
+    status[13] = true;
+    colors[13] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(thirdRowX+distBetweenButton*6, thirdRowY, buttonLen, buttonWid)) {
+    status[12] = true;
+    colors[12] = new Color(135, 206, 235);
+    return;
+  }
+  
+  
+  // last row
+  if (didMouseClick(keyBoardStartPoint+90, thirdRowY+100, 180, 50)) {
+    status[26] = true;
+    colors[26] = new Color(135, 206, 235);
+    return;
+  }
+  if (didMouseClick(keyBoardStartPoint+290, thirdRowY+100, 60, 50)) {
+    status[27] = true;
+    colors[27] = new Color(135, 206, 235);
     return;
   }
 }
 
 void mouseReleased() 
 {
-  // q
-  if (status[0]) {
-    status[0] = false;
-    colors[0].red = 200;
-    colors[0].green = 200;
-    colors[0].blue = 200;
+  // first row
+  if (status[16]) {
+    status[16] = false;
+    colors[16] = new Color(200, 200, 200);
     currentTyped += "q";
     if (intelligentInput) {
       intelligentNext('q');
     }
     return;
   }
-  // z
-  if (status[1]) {
-    status[1] = false;
-    colors[1].red = 200;
-    colors[1].green = 200;
-    colors[1].blue = 200;
+  if (status[22]) {
+    status[22] = false;
+    colors[22] = new Color(200, 200, 200);
+    currentTyped += "w";
+    if (intelligentInput) {
+      intelligentNext('w');
+    }
+    return;
+  }
+  if (status[4]) {
+    status[4] = false;
+    colors[4] = new Color(200, 200, 200);
+    currentTyped += "e";
+    if (intelligentInput) {
+      intelligentNext('e');
+    }
+    return;
+  }
+  if (status[17]) {
+    status[17] = false;
+    colors[17] = new Color(200, 200, 200);
+    currentTyped += "r";
+    if (intelligentInput) {
+      intelligentNext('r');
+    }
+    return;
+  }
+  if (status[19]) {
+    status[19] = false;
+    colors[19] = new Color(200, 200, 200);
+    currentTyped += "t";
+    if (intelligentInput) {
+      intelligentNext('t');
+    }
+    return;
+  }
+  if (status[24]) {
+    status[24] = false;
+    colors[24] = new Color(200, 200, 200);
+    currentTyped += "y";
+    if (intelligentInput) {
+      intelligentNext('y');
+    }
+    return;
+  }
+  if (status[20]) {
+    status[20] = false;
+    colors[20] = new Color(200, 200, 200);
+    currentTyped += "u";
+    if (intelligentInput) {
+      intelligentNext('u');
+    }
+    return;
+  }
+  if (status[8]) {
+    status[8] = false;
+    colors[8] = new Color(200, 200, 200);
+    currentTyped += "i";
+    if (intelligentInput) {
+      intelligentNext('i');
+    }
+    return;
+  }
+  if (status[14]) {
+    status[14] = false;
+    colors[14] = new Color(200, 200, 200);
+    currentTyped += "o";
+    if (intelligentInput) {
+      intelligentNext('o');
+    }
+    return;
+  }
+  if (status[15]) {
+    status[15] = false;
+    colors[15] = new Color(200, 200, 200);
+    currentTyped += "p";
+    if (intelligentInput) {
+      intelligentNext('p');
+    }
+    return;
+  }
+  
+  
+  // second row
+  if (status[0]) {
+    status[0] = false;
+    colors[0] = new Color(200, 200, 200);
+    currentTyped += "a";
+    if (intelligentInput) {
+      intelligentNext('a');
+    }
+    return;
+  }
+  if (status[18]) {
+    status[18] = false;
+    colors[18] = new Color(200, 200, 200);
+    currentTyped += "s";
+    if (intelligentInput) {
+      intelligentNext('s');
+    }
+    return;
+  }
+  if (status[3]) {
+    status[3] = false;
+    colors[3] = new Color(200, 200, 200);
+    currentTyped += "d";
+    if (intelligentInput) {
+      intelligentNext('d');
+    }
+    return;
+  }
+  if (status[5]) {
+    status[5] = false;
+    colors[5] = new Color(200, 200, 200);
+    currentTyped += "f";
+    if (intelligentInput) {
+      intelligentNext('f');
+    }
+    return;
+  }
+  if (status[6]) {
+    status[6] = false;
+    colors[6] = new Color(200, 200, 200);
+    currentTyped += "g";
+    if (intelligentInput) {
+      intelligentNext('g');
+    }
+    return;
+  }
+  if (status[7]) {
+    status[7] = false;
+    colors[7] = new Color(200, 200, 200);
+    currentTyped += "h";
+    if (intelligentInput) {
+      intelligentNext('h');
+    }
+    return;
+  }
+  if (status[9]) {
+    status[9] = false;
+    colors[9] = new Color(200, 200, 200);
+    currentTyped += "j";
+    if (intelligentInput) {
+      intelligentNext('j');
+    }
+    return;
+  }
+  if (status[10]) {
+    status[10] = false;
+    colors[10] = new Color(200, 200, 200);
+    currentTyped += "k";
+    if (intelligentInput) {
+      intelligentNext('k');
+    }
+    return;
+  }
+  if (status[11]) {
+    status[11] = false;
+    colors[11] = new Color(200, 200, 200);
+    currentTyped += "l";
+    if (intelligentInput) {
+      intelligentNext('l');
+    }
+    return;
+  }
+  
+  
+  
+  // third row
+  if (status[25]) {
+    status[25] = false;
+    colors[25] = new Color(200, 200, 200);
     currentTyped += "z";
     if (intelligentInput) {
       intelligentNext('z');
     }
     return;
   }
-  // backspace
-  if (status[2]) {
-    status[2] = false;
-    colors[2].red = 200;
-    colors[2].green = 200;
-    colors[2].blue = 200;
-    if (currentTyped.length() > 0) {
-      currentTyped = currentTyped.substring(0, currentTyped.length()-1);
-    }
+  if (status[23]) {
+    status[23] = false;
+    colors[23] = new Color(200, 200, 200);
+    currentTyped += "x";
     if (intelligentInput) {
-      intelligentNext('.');
+      intelligentNext('x');
     }
     return;
   }
-  // blank
-  if (status[3]) {
-    status[3] = false;
-    colors[3].red = 200;
-    colors[3].green = 200;
-    colors[3].blue = 200;
+  if (status[2]) {
+    status[2] = false;
+    colors[2] = new Color(200, 200, 200);
+    currentTyped += "c";
+    if (intelligentInput) {
+      intelligentNext('c');
+    }
+    return;
+  }
+  if (status[21]) {
+    status[21] = false;
+    colors[21] = new Color(200, 200, 200);
+    currentTyped += "v";
+    if (intelligentInput) {
+      intelligentNext('v');
+    }
+    return;
+  }
+  if (status[1]) {
+    status[1] = false;
+    colors[1] = new Color(200, 200, 200);
+    currentTyped += "b";
+    if (intelligentInput) {
+      intelligentNext('b');
+    }
+    return;
+  }
+  if (status[13]) {
+    status[13] = false;
+    colors[13] = new Color(200, 200, 200);
+    currentTyped += "n";
+    if (intelligentInput) {
+      intelligentNext('n');
+    }
+    return;
+  }
+  if (status[12]) {
+    status[12] = false;
+    colors[12] = new Color(200, 200, 200);
+    currentTyped += "m";
+    if (intelligentInput) {
+      intelligentNext('m');
+    }
+    return;
+  }
+  
+  
+  // last row
+  if (status[26]) {
+    status[26] = false;
+    colors[26] = new Color(200, 200, 200);
     currentTyped += " ";
     if (intelligentInput) {
       intelligentNext(' ');
     }
     return;
   }
-  // abc
-  if (status[8]) {
-    status[8] = false;
-    colors[8].red = 130;
-    colors[8].green = 130;
-    colors[8].blue = 130;
-    translate(x+boxWidth+2, keyBoardStartPoint+60);
-    float degree = getDegrees(x+boxWidth+2, keyBoardStartPoint+60);
-    if ((degree >= 60 && degree <= 120) || (degree >= -120 && degree <= -60)) {
-      currentTyped += "b";
-      if (intelligentInput) {
-        intelligentNext('b');
-      }
-    } else if ((degree >= -180 && degree < -120) || (degree > 120 && degree <= 180)) {
-      currentTyped += "a";
-      if (intelligentInput) {
-        intelligentNext('a');
-      }
-    } else {
-      currentTyped += "c";
-      if (intelligentInput) {
-        intelligentNext('c');
-      }
+  if (status[27]) {
+    status[27] = false;
+    colors[27] = new Color(200, 200, 200);
+    if (currentTyped.length() > 0) {
+      currentTyped = currentTyped.substring(0, currentTyped.length()-1);
     }
-    return;
-  }
-  if (status[9]) {
-    status[9] = false;
-    colors[9].red = 130;
-    colors[9].green = 130;
-    colors[9].blue = 130;
-    translate(x+boxWidth*2+50, x+boxWidth+8);
-    float degree = getDegrees(x+boxWidth*2+50, x+boxWidth+8);
-    if ((degree >= -180 && degree <= -120) || (degree >= 120 && degree <= 180) || (degree >= -60 && degree <= 60)) {
-      currentTyped += "h";
-      if (intelligentInput) {
-        intelligentNext('h');
-      }
-    } else if (degree > -120 && degree < -60) {
-      currentTyped += "g";
-      if (intelligentInput) {
-        intelligentNext('g');
-      }
-    } else {
-      currentTyped += "i";
-      if (intelligentInput) {
-        intelligentNext('i');
-      }
-    }
-    return;
-  }
-  if (status[10]) {
-    status[10] = false;
-    colors[10].red = 130;
-    colors[10].green = 130;
-    colors[10].blue = 130;
-    translate(x+boxWidth+2, x+boxWidth*2+60);
-    float degree = getDegrees(x+boxWidth+2, x+boxWidth*2+60);
-    if ((degree >= 60 && degree <= 120) || (degree >= -120 && degree <= -60)) {
-      currentTyped += "n";
-      if (intelligentInput) {
-        intelligentNext('n');
-      }
-    } else if ((degree >= -180 && degree < -120) || (degree > 120 && degree <= 180)) {
-      currentTyped += "m";
-      if (intelligentInput) {
-        intelligentNext('m');
-      }
-    } else {
-      currentTyped += "o";
-      if (intelligentInput) {
-        intelligentNext('o');
-      }
-    }
-    return;
-  }
-  if (status[11]) {
-    status[11] = false;
-    colors[11].red = 130;
-    colors[11].green = 130;
-    colors[11].blue = 130;
-    translate(keyBoardStartPoint+50, x+boxWidth+15);
-    float degree = getDegrees(keyBoardStartPoint+50, x+boxWidth+15);
-    if ((degree >= -180 && degree <= -120) || (degree >= 120 && degree <= 180) || (degree >= -60 && degree <= 60)) {
-      currentTyped += "u";
-      if (intelligentInput) {
-        intelligentNext('u');
-      }
-    } else if (degree > -120 && degree < -60) {
-      currentTyped += "t";
-      if (intelligentInput) {
-        intelligentNext('t');
-      }
-    } else {
-      currentTyped += "v";
-      if (intelligentInput) {
-        intelligentNext('v');
-      }
-    }
-    return;
-  }
-  if (status[4]) {
-    status[4] = false;
-    colors[4].red = 80;
-    colors[4].green = 80;
-    colors[4].blue = 80;
-    translate(keyBoardStartPoint+50, keyBoardStartPoint+60);
-    float degree = getDegrees(keyBoardStartPoint+50, keyBoardStartPoint+60);
-    if ((degree >= -180 && degree <= -90) || (degree >= 30 && degree <= 60)) {
-      currentTyped += "x";
-      if (intelligentInput) {
-        intelligentNext('x');
-      }
-    } else if (degree > -90 && degree < 30) {
-      currentTyped += "y";
-      if (intelligentInput) {
-        intelligentNext('y');
-      }
-    } else {
-      currentTyped += "w";
-      if (intelligentInput) {
-        intelligentNext('w');
-      }
-    }
-    return;
-  }
-  if (status[5]) {
-    status[5] = false;
-    colors[5].red = 80;
-    colors[5].green = 80;
-    colors[5].blue = 80;
-    translate(x+boxWidth*2+50, keyBoardStartPoint+60);
-    float degree = getDegrees(x+boxWidth*2+50, keyBoardStartPoint+60);
-    if ((degree >= 120 && degree <= 150) || (degree >= -90 && degree <= 0)) {
-      currentTyped += "e";
-      if (intelligentInput) {
-        intelligentNext('e');
-      }
-    } else if ((degree > 150 && degree <= 180) || (degree >= -180 && degree < -90)) {
-      currentTyped += "d";
-      if (intelligentInput) {
-        intelligentNext('d');
-      }
-    } else {
-      currentTyped += "f";
-      if (intelligentInput) {
-        intelligentNext('f');
-      }
-    }
-    return;
-  }
-  if (status[6]) {
-    status[6] = false;
-    colors[6].red = 80;
-    colors[6].green = 80;
-    colors[6].blue = 80;
-    translate(x+boxWidth*2+50, x+boxWidth*2+60);
-    float degree = getDegrees(x+boxWidth*2+50, x+boxWidth*2+60);
-    if ((degree >= -150 && degree <= -120) || (degree >= 0 && degree <= 90)) {
-      currentTyped += "k";
-      if (intelligentInput) {
-        intelligentNext('k');
-      }
-    } else if ((degree >= -180 && degree < -150) || (degree >= 90 && degree <= 180)) {
-      currentTyped += "l";
-      if (intelligentInput) {
-        intelligentNext('l');
-      }
-    } else {
-      currentTyped += "j";
-      if (intelligentInput) {
-        intelligentNext('j');
-      }
-    }
-    return;
-  }
-  if (status[7]) {
-    status[7] = false;
-    colors[7].red = 80;
-    colors[7].green = 80;
-    colors[7].blue = 80;
-    translate(keyBoardStartPoint+55, x+boxWidth*2+60);
-    float degree = getDegrees(keyBoardStartPoint+55, x+boxWidth*2+60);
-    if ((degree >= -60 && degree <= -30) || (degree >= 90 && degree <= 180)) {
-      currentTyped += "r";
-      if (intelligentInput) {
-        intelligentNext('r');
-      }
-    } else if (degree > -30 && degree <= 90) {
-      currentTyped += "s";
-      if (intelligentInput) {
-        intelligentNext('s');
-      }
-    } else {
-      currentTyped += "p";
-      if (intelligentInput) {
-        intelligentNext('p');
-      }
+    if (intelligentInput) {
+      intelligentNext('.');
     }
     return;
   }
@@ -734,21 +845,14 @@ void intelligentNext(char c) {
   invalidInput = true;
 }
 
+// reset the text colors
 void resetAllTextColors() {
-  // middle text
-  textColors[16] = new Color(50, 50, 50);
-  textColors[25] = new Color(50, 50, 50);
-  
-  // peripheral text
-  for (int i = 0; i < 16; i++) {
-    textColors[i] = new Color(255, 255, 255);
-  }
-  
-  for (int i = 17; i < 25; i++) {
-    textColors[i] = new Color(255, 255, 255);
+  for (int i = 0; i < 26; i++) {
+    textColors[i] = new Color(0, 0, 0);
   }
 }
 
+// show the next possible letters
 void show() {
   if (curr != root && curr != null) {
     TrieNode[] next = curr.next;
@@ -759,19 +863,10 @@ void show() {
     }
     
     if (curr.word != null) {
-      colors[3] = new Color(255,99,71);
+      colors[26] = new Color(255,99,71);
     }
   }  
 }
-
-// always positive.
-// close to 90 if it is vertical; 
-// close to 180 if it is left horizontal
-// close to 0 if it is right horizontal
-float getDegrees(float x, float y) {
-  return degrees(atan2(mouseY-y, mouseX-x));
-}
-
 
 void nextTrial()
 {
